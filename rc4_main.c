@@ -1,4 +1,4 @@
-/* $Id: rc4_main.c,v 1.3 2003/12/22 21:53:23 luis Exp $
+/* $Id: rc4_main.c,v 1.4 2003/12/22 23:53:21 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Wed Dec 17 00:23:34 MET 2003
  *
@@ -50,7 +50,7 @@
 /* prototypes */
 
 /* variables */
-static char RC4_MAIN_C_RCSId[]="\n$Id: rc4_main.c,v 1.3 2003/12/22 21:53:23 luis Exp $\n";
+static char RC4_MAIN_C_RCSId[]="\n$Id: rc4_main.c,v 1.4 2003/12/22 23:53:21 luis Exp $\n";
 
 const char ext[] = ".rc4";
 
@@ -195,7 +195,8 @@ int main (int argc, char **argv)
 	if (!cfg.key) {
 		char aux[1024];
 		FILE *f = fopen("/dev/tty", "ra");
-		fprintf(f,"Clave: ");
+
+		fprintf(stderr, "Clave: "); fflush(stderr);
 		fgets(aux, sizeof aux, f);
 		cfg.key = strdup(aux);
 		fclose(f);
@@ -216,4 +217,4 @@ int main (int argc, char **argv)
 	exit(EXIT_SUCCESS);
 } /* main */
 
-/* $Id: rc4_main.c,v 1.3 2003/12/22 21:53:23 luis Exp $ */
+/* $Id: rc4_main.c,v 1.4 2003/12/22 23:53:21 luis Exp $ */
