@@ -1,6 +1,6 @@
-/* $Id: rc4.h,v 1.2 2003/12/22 21:53:23 luis Exp $
+/* $Id: gkfs.h,v 1.1 2003/12/22 21:53:23 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
- * Date: Thu Dec 11 09:11:05 MET 2003
+ * Date: Sun Dec 21 20:38:53 MET 2003
  *
  * Disclaimer:
  *  This program is free software; you can redistribute it and/or modify
@@ -21,34 +21,21 @@
 /* Do not include anything BEFORE the line below, as it would not be
  * protected against double inclusion from other files
  */
-#ifndef RC4_H
-#define RC4_H
+#ifndef GKFS_H
+#define GKFS_H
 
-static char RC4_H_RCSId[] = "\n$Id: rc4.h,v 1.2 2003/12/22 21:53:23 luis Exp $\n";
+static char GKFS_H_RCSId[] = "\n$Id: gkfs.h,v 1.1 2003/12/22 21:53:23 luis Exp $\n";
 
 /* constants */
-#define RC4MOD	256
 
 /* types */
-typedef unsigned char RC4BYTE;
-
-typedef struct RC4STATUS {
-	RC4BYTE i;
-	RC4BYTE j;
-	RC4BYTE S[RC4MOD];
-} RC4STATUS;
 
 /* prototypes */
+RC4BYTE *getkeyfromstr(char *s);
 
-void rc4init(RC4STATUS *s, RC4BYTE *key);
-
-RC4BYTE rc4next(RC4STATUS *s);
-
-void rc4cipher(RC4STATUS *s, RC4BYTE *b, size_t n);
-
-#endif /* RC4_H */
+#endif /* GKFS_H */
 /* Do not include anything AFTER the line above, as it would not be
  * protected against double inclusion from other files.
  */
 
-/* $Id: rc4.h,v 1.2 2003/12/22 21:53:23 luis Exp $ */
+/* $Id: gkfs.h,v 1.1 2003/12/22 21:53:23 luis Exp $ */
