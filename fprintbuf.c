@@ -1,14 +1,14 @@
 /* $RCSfile: fprintbuf.c,v $ -- muestra un buffer de datos en hexadecimal y ASCII.
  * Autor: Luis Colorado.
  * Fecha: 7.10.92.
- * Version: $Revision: 1.1 $ ($Date: 2003/12/11 11:04:15 $)
+ * Version: $Revision: 1.1.1.1 $ ($Date: 2003/12/11 11:04:15 $)
  */
 #include <sys/types.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdarg.h>
 
-static char *id = "$Id: fprintbuf.c,v 1.1 2003/12/11 11:04:15 luis Exp $\n";
+static char *id = "$Id: fprintbuf.c,v 1.1.1.1 2003/12/11 11:04:15 luis Exp $\n";
 
 #define 	TAM_REG		16
 

@@ -1,4 +1,4 @@
-/* $Id: rc4.h,v 1.1 2003/12/11 11:04:15 luis Exp $
+/* $Id: rc4.h,v 1.1.1.1 2003/12/11 11:04:15 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Thu Dec 11 09:11:05 MET 2003
  *
@@ -24,7 +24,7 @@
 #ifndef RC4_H
 #define RC4_H
 
-static char RC4_H_RCSId[] = "\n$Id: rc4.h,v 1.1 2003/12/11 11:04:15 luis Exp $\n";
+static char RC4_H_RCSId[] = "\n$Id: rc4.h,v 1.1.1.1 2003/12/11 11:04:15 luis Exp $\n";
 
 /* constants */
 #define RC4MOD	256
@@ -45,4 +45,4 @@ typedef struct RC4STATUS {
  * protected against double inclusion from other files.
  */
 
-/* $Id: rc4.h,v 1.1 2003/12/11 11:04:15 luis Exp $ */
+/* $Id: rc4.h,v 1.1.1.1 2003/12/11 11:04:15 luis Exp $ */

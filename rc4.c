@@ -1,4 +1,4 @@
-/* $Id: rc4.c,v 1.1 2003/12/11 11:04:15 luis Exp $
+/* $Id: rc4.c,v 1.1.1.1 2003/12/11 11:04:15 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Thu Dec 11 09:12:46 MET 2003
  *
@@ -38,7 +38,7 @@
 /* prototypes */
 
 /* variables */
-static char RC4_C_RCSId[]="\n$Id: rc4.c,v 1.1 2003/12/11 11:04:15 luis Exp $\n";
+static char RC4_C_RCSId[]="\n$Id: rc4.c,v 1.1.1.1 2003/12/11 11:04:15 luis Exp $\n";
 
 /* functions */
 static void rc4advance(RC4STATUS *s, RC4BYTE *key)
@@ -162,4 +162,4 @@ main()
 		fprintf(stdout, "[%02x]", rc4next(&s));
 } /* main */
 
-/* $Id: rc4.c,v 1.1 2003/12/11 11:04:15 luis Exp $ */
+/* $Id: rc4.c,v 1.1.1.1 2003/12/11 11:04:15 luis Exp $ */

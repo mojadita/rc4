@@ -1,4 +1,4 @@
-/* $Id: rc4_main.c,v 1.1 2003/12/11 11:04:15 luis Exp $
+/* $Id: rc4_main.c,v 1.1.1.1 2003/12/11 11:04:15 luis Exp $
  * Author: Luis Colorado <Luis.Colorado@HispaLinux.ES>
  * Date: Thu Dec 11 11:52:13 MET 2003
  *
@@ -37,7 +37,7 @@
 /* prototypes */
 
 /* variables */
-static char RC4_MAIN_C_RCSId[]="\n$Id: rc4_main.c,v 1.1 2003/12/11 11:04:15 luis Exp $\n";
+static char RC4_MAIN_C_RCSId[]="\n$Id: rc4_main.c,v 1.1.1.1 2003/12/11 11:04:15 luis Exp $\n";
 
 char default_pw[256] = "";
 
@@ -66,4 +66,4 @@ int main (int argc, char **argv)
 	} /* while */
 } /* main */
 
-/* $Id: rc4_main.c,v 1.1 2003/12/11 11:04:15 luis Exp $ */
+/* $Id: rc4_main.c,v 1.1.1.1 2003/12/11 11:04:15 luis Exp $ */
