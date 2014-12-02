@@ -1,0 +1,7 @@
+Implementation of the RC4 encryption algorithm.
+
+Copyright (C) 2003-2014 Luis Colorado
+<lc@luiscoloradosistemas.com>  This software is
+open source.  You can distribute it under the
+LGPL license.  Copies of the LGPL document can
+be downloaded from www.gnu.org.
