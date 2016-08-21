@@ -32,7 +32,7 @@ static RC4 cad[] = {
     };
 int main(int argc, char **argv)
 {
-    RC4STATUS *sta, *stb;
+    RC4STATUS *sta;
     RC4 *key = NULL;
     size_t keylen;
     int opt, i = 0;
@@ -42,10 +42,10 @@ int main(int argc, char **argv)
     while ((opt = getopt(argc, argv, "k:t:")) != EOF) {
         switch (opt) {
         case 'k': key = (RC4 *)optarg; break;
-        case 't': tab = optarg; break;
+        case 't': tab = (RC4 *)optarg; break;
         }
     }
-    mod = strlen(tab);
+    mod = strlen((char*)tab);
 
     sta = new_rc4status(mod);
     if (key) {
