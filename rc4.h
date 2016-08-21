@@ -29,22 +29,25 @@ static char RC4_H_RCSId[] = "\n$Id: rc4.h,v 1.2 2003/12/22 21:53:23 luis Exp $\n
 /* constants */
 #define RC4MOD	256
 
-/* types */
-typedef unsigned char RC4BYTE;
+typedef unsigned char RC4;
 
+/* types */
 typedef struct RC4STATUS {
-	RC4BYTE i;
-	RC4BYTE j;
-	RC4BYTE S[RC4MOD];
+	RC4 i, j;
+    size_t mod;
+	RC4 *s;
 } RC4STATUS;
 
 /* prototypes */
 
-void rc4init(RC4STATUS *s, RC4BYTE *key);
+RC4STATUS *new_rc4status(size_t mod);
 
-RC4BYTE rc4next(RC4STATUS *s);
+void rc4init(RC4STATUS *s, RC4 *key, size_t keysize);
 
-void rc4cipher(RC4STATUS *s, RC4BYTE *b, size_t n);
+RC4 rc4next(RC4STATUS *s);
+
+void rc4cipher(RC4STATUS *s, RC4 *b, size_t n);
+void rc4uncipher(RC4STATUS *s, RC4 *b, size_t n);
 
 #endif /* RC4_H */
 /* Do not include anything AFTER the line above, as it would not be

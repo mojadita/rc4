@@ -26,9 +26,11 @@
 #include <sys/socket.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <time.h>
+#include "fprintbuf.h"
 #include "rc4.h"
 
 /* constants */
@@ -43,9 +45,9 @@ static char RC4_MAIN_C_RCSId[]="\n$Id: rc4_test.c,v 1.1 2003/12/11 21:35:13 luis
 /* functions */
 
 /* main program */
-main()
+int main()
 {
-	RC4STATUS s;
+	RC4STATUS *s = new_rc4status(RC4MOD);
 	char texto[] = "Arriba cachipurriana";
 	size_t lon = strlen(texto);
 	char clave[] = {
@@ -87,25 +89,25 @@ main()
 	};
 		
 
-	fprintbuf(stdout, lon, texto, "Texto a cifrar");
+	fprintbuf(stdout, lon, (unsigned char *)texto, -1, -1, "Texto a cifrar");
 
 	fprintf(stdout, "Clave nula (256 NULL's)\n");
-	rc4init(&s, NULL); /* key is 0's */
-	rc4cipher(&s, texto, lon);
-	fprintbuf(stdout, lon, texto, "Texto Cifrado");
+	rc4init(s, NULL, 0); /* key is 0's */
+	rc4cipher(s, (RC4 *)texto, lon);
+	fprintbuf(stdout, lon, (unsigned char *)texto, -1, -1, "Texto Cifrado");
 
-	rc4init(&s, NULL);
-	rc4cipher(&s, texto, lon);
-	fprintbuf(stdout, lon, texto, "Texto descifrado");
+	rc4init(s, NULL, 0);
+	rc4uncipher(s, (RC4 *)texto, lon);
+	fprintbuf(stdout, lon, (unsigned char *)texto, -1, -1, "Texto descifrado");
 
-	fprintbuf(stdout, sizeof clave, clave, "Clave de cifrado:");
-	rc4init(&s, clave);
-	rc4cipher(&s, texto, lon);
-	fprintbuf(stdout, lon, texto, "Texto Cifrado");
+	fprintbuf(stdout, sizeof clave, (unsigned char *)clave, -1, -1, "Clave de cifrado:");
+	rc4init(s, (RC4 *)clave, sizeof clave);
+	rc4cipher(s, (RC4 *)texto, lon);
+	fprintbuf(stdout, lon, (unsigned char *)texto, -1, -1, "Texto Cifrado");
 
-	rc4init(&s, clave);
-	rc4cipher(&s, texto, lon);
-	fprintbuf(stdout, lon, texto, "Texto descifrado");
+	rc4init(s, (RC4 *)clave, sizeof clave);
+	rc4cipher(s, (RC4 *)texto, lon);
+	fprintbuf(stdout, lon, (unsigned char *)texto, -1, -1, "Texto descifrado");
 
 } /* main */
 

@@ -37,10 +37,10 @@ typedef struct b64_st {
 
 /* prototypes */
 void b64_init(b64_st *);
-size_t b64_code(b64_st *, unsigned char *, size_t, unsigned char *);
-size_t b64_decode(b64_st *, unsigned char *, size_t, unsigned char *);
-size_t b64_code_end(b64_st *, unsigned char *);
-size_t b64_decode_end(b64_st *, unsigned char *);
+size_t b64_code(b64_st *, char *, size_t, char *);
+size_t b64_decode(b64_st *, char *, size_t, char *);
+size_t b64_code_end(b64_st *, char *);
+size_t b64_decode_end(b64_st *, char *);
 
 #endif /* B64_H */
 /* Do not include anything AFTER the line above, as it would not be

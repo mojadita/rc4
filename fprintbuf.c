@@ -15,12 +15,14 @@ static char *id = "$Id: fprintbuf.c,v 1.1 2003/12/11 11:04:15 luis Exp $\n";
 int fprintbuf (FILE *f,	/* fichero de salida */
 	int t,			/* tamano del buffer */
 	unsigned char *b,	/* puntero al buffer */
+    int A, int B,
 	char *fmt, ...)		/* rotulo de cabecera */
 {
 	int off, i;
 	unsigned char c;
 	va_list lista;
 	size_t escritos = 0;
+    char *color = "", *reset = "";
 
 	if (fmt)
 		escritos += fprintf (f, "DESPLAZ. : ");
@@ -32,26 +34,50 @@ int fprintbuf (FILE *f,	/* fichero de salida */
 	while (t > 0) {
 		escritos += fprintf (f, "%08x : ", off);
 		for (i = 0; i < TAM_REG; i++) {
+            if (off == A) {
+                if (off == B) {
+                    color = "\033[33m";
+                } else {
+                    color = "\033[31m";
+                }
+            } else if (off == B) {
+                color = "\033[32m";
+            }
+            if (off == A || off == B)
+                reset = "\033[0m";
 			if (t > 0)
-				escritos += fprintf (f, "%02x ", *b);
+				escritos += fprintf (f, "%s%02x%s ", color, *b & 0xff, reset);
 			else escritos += fprintf (f, "   ");
 			off++;
 			t--;
 			b++;
+            color = reset = "";
 		}
 		escritos += fprintf (f, ": ");
 		t += TAM_REG;
 		b -= TAM_REG;
 		off -= TAM_REG;
 		for (i = 0; i < TAM_REG; i++) {
+            if (off == A) {
+                if (off == B) {
+                    color = "\033[33m";
+                } else {
+                    color = "\033[31m";
+                }
+            } else if (off == B) {
+                color = "\033[32m";
+            }
+            if (off == A || off == B)
+                reset = "\033[0m";
 			c = *b++;
 			if (t > 0)
 				if (isprint (c))
-					escritos += fprintf (f, "%c", c);
+					escritos += fprintf (f, "%s%c%s", color, c, reset);
 				else	escritos += fprintf (f, ".");
 			else break;
 			off++;
 			t--;
+            color = reset = "";
 		}
 		escritos += fprintf (f, "\n");
 	}

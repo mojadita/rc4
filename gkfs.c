@@ -21,6 +21,7 @@
 #define IN_GKFS_C
 
 /* Standard include files */
+#include <ctype.h>
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/socket.h>
@@ -43,10 +44,10 @@ static char GKFS_C_RCSId[]="\n$Id: gkfs.c,v 1.1 2003/12/22 21:53:23 luis Exp $\n
 
 /* functions */
 
-RC4BYTE *getkeyfromstr(char *s)
+RC4 *getkeyfromstr(RC4 *s)
 {
 	int n, i;
-	static RC4BYTE b[RC4MOD];
+	static RC4 b[RC4MOD];
 
 	for (n = 0; *s; s++) {
 		if (isxdigit(*s)) {
@@ -88,7 +89,7 @@ RC4BYTE *getkeyfromstr(char *s)
 		b[i] = b[i-n];
 	}
 #if DEBUG
-	fprintbuf(stderr, RC4MOD, b, "");
+	fprintbuf(stderr, RC4MOD, b, -1, -1, "");
 #endif
 	return b;
 } /* getkeyfromstr */

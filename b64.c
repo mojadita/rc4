@@ -21,15 +21,12 @@
 #define IN_B64_C
 
 /* Standard include files */
-#include <sys/types.h>
-#include <sys/time.h>
-#include <sys/socket.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <time.h>
+#include <sys/types.h>
+
 #include "b64.h"
 
 /* constants */
@@ -50,9 +47,9 @@ void b64_init(b64_st *s)
 
 size_t b64_code(
 	b64_st *s,
-	unsigned char *b,
+	char *b,
 	size_t n,
-	unsigned char *ob)
+	char *ob)
 {
 	size_t res = 0;
 
@@ -81,13 +78,13 @@ size_t b64_code(
 
 size_t b64_decode(
 	b64_st *s,
-	unsigned char *b,
+	char *b,
 	size_t n,
-	unsigned char *ob)
+	char *ob)
 {
 	size_t res = 0;
 
-	if (s->n == -1) return res;
+	if (s->n == 7) return res;
 	for (;n;b++,n--) {
 		char *p;
 		unsigned char c;
@@ -97,7 +94,7 @@ size_t b64_decode(
 
 		p = strchr(ct, b[0]);
 		if (!p) {
-			s->n = -1;
+			s->n = 7;
 			break;
 		}
 		c = p - ct;
@@ -121,7 +118,7 @@ size_t b64_decode(
 
 size_t b64_code_end(
 	b64_st *s,
-	unsigned char *ob)
+	char *ob)
 {
 	size_t res = 0;
 
@@ -144,7 +141,7 @@ size_t b64_code_end(
 	return res;
 } /* b64_code_end */
 
-size_t b64_decode_end(b64_st *s, unsigned char *ob)
+size_t b64_decode_end(b64_st *s, char *ob)
 {
 	size_t res = 0;
 	char *p;

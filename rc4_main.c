@@ -44,6 +44,8 @@
 #define OP_CIPHER 1
 #define OP_DECIPHER	2
 
+#define F(x) "%s:%d:%s: " x, __FILE__, __LINE__, __func__
+
 /* types */
 
 /* prototypes */
@@ -55,9 +57,10 @@ const char ext[] = ".rc4";
 
 struct {
 	int flags;
-	RC4BYTE *key;
+	RC4 *key;
+    size_t keysize;
 } cfg = {
-	C_FLAG | A_FLAG,
+	C_FLAG | A_FLAG, NULL, 0,
 };
 
 /* functions */
@@ -85,16 +88,17 @@ void do_usage(void)
 void procesar(char *nomfich)
 {
 	FILE *in;
+    RC4STATUS *rc4st = new_rc4status(RC4MOD);
 
 	if (cfg.flags & V_FLAG) {
-		fprintf(stderr, "rc4:"__FILE__"(%d): procesando %s\n",
-			__LINE__, nomfich ? nomfich : "<stdin>");
+		fprintf(stderr, F("procesando %s\n"),
+			nomfich ? nomfich : "<stdin>");
 	} /* if */
 	if (nomfich) {
 		in = fopen(nomfich, "r");
 		if (!in) {
-			fprintf(stderr, "rc4:"__FILE__"(%d): fopen: %s: %s(%d)\n",
-				__LINE__, nomfich, sys_errlist[errno], errno);
+			fprintf(stderr, F("fopen: %s: %s(errno=%d)\n"),
+				nomfich, sys_errlist[errno], errno);
 			return;
 		} /* if */
 	} else {
@@ -102,22 +106,21 @@ void procesar(char *nomfich)
 	} /* if */
 
 	if (cfg.flags & C_FLAG) {
-		RC4STATUS rc4st;
 		b64_st b64st;
 		int c;
 
-		rc4init(&rc4st, cfg.key);
+		rc4init(rc4st, cfg.key, cfg.keysize);
 		if (cfg.flags & A_FLAG) b64_init(&b64st);
 
 		/* leemos caracteres, ciframos y codificamos b64 opcionalmente */
 		while ((c = fgetc(in)) != EOF) {
-			c ^= rc4next(&rc4st);
+			c ^= rc4next(rc4st);
 			if (cfg.flags & A_FLAG) {
 				char cin = c;
 				char cout[4];
 				int n;
 				n = b64_code(&b64st, &cin, 1, cout);
-				printf("%0.*s", n, cout);
+				printf("%.*s", n, cout);
 			} else {
 				fputc(c, stdout);
 			} /* if */
@@ -126,14 +129,13 @@ void procesar(char *nomfich)
 			char cout[4];
 			int n;
 			n = b64_code_end(&b64st, cout);
-			printf("%0.*s", n, cout);
+			printf("%.*s", n, cout);
 		} /* if */
 	} else { /* decode */
-		RC4STATUS rc4st;
 		b64_st b64st;
 		int c;
 
-		rc4init(&rc4st, cfg.key);
+		rc4init(rc4st, cfg.key, cfg.keysize);
 		if (cfg.flags & A_FLAG) b64_init(&b64st);
 
 		/* leemos caracteres, descodificamos b64 opcionalmente y desciframos */
@@ -146,7 +148,7 @@ void procesar(char *nomfich)
 				if (n < 1) continue;
 				c = cout[0];
 			} /* if */
-			c ^= rc4next(&rc4st);
+			c ^= rc4next(rc4st);
 			fputc(c, stdout);
 		} /* while */
 		if (cfg.flags & A_FLAG) {
@@ -155,11 +157,12 @@ void procesar(char *nomfich)
 			n = b64_decode_end(&b64st, cout);
 			if (n) {
 				c = cout[0];
-				c ^= rc4next(&rc4st);
+				c ^= rc4next(rc4st);
 				fputc(c, stdout);
 			} /* if */
 		} /* if */
 	} /* if */
+    free(rc4st);
 	fclose(in);
 } /* procesar */
 
@@ -170,7 +173,7 @@ int main (int argc, char **argv)
 	extern int optind;
 	extern char *optarg;
 	int opt;
-	char theKey [256];
+	char theKey [RC4MOD];
 
 	while ((opt = getopt(argc, argv, "abcp:dhv")) != EOF) {
 		switch(opt) {
@@ -178,7 +181,9 @@ int main (int argc, char **argv)
 		case 'b': cfg.flags &= ~A_FLAG; break;
 		case 'c': cfg.flags |= C_FLAG; break;
 		case 'd': cfg.flags &= ~C_FLAG; break;
-		case 'p': cfg.key = optarg; break;
+		case 'p': cfg.key = (unsigned char *)optarg;
+                  cfg.keysize = strlen((char*)cfg.key);
+                  break;
 		case 'v': cfg.flags |= V_FLAG; break;
 		case 'h': default: cfg.flags |= H_FLAG; break;
 		} /* switch */
@@ -197,11 +202,11 @@ int main (int argc, char **argv)
 
 		fprintf(stderr, "Clave: "); fflush(stderr);
 		fgets(aux, sizeof aux, f);
-		cfg.key = strdup(aux);
+		cfg.key = (unsigned char *)strdup(aux);
 		fclose(f);
 	} /* if */
 
-	cfg.key = getkeyfromstr(cfg.key);
+	cfg.key = getkeyfromstr((unsigned char *)cfg.key);
 
 	/* proceso de ficheros/stdin. */
 	argc -= optind; argv += optind;

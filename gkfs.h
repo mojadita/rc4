@@ -31,7 +31,7 @@ static char GKFS_H_RCSId[] = "\n$Id: gkfs.h,v 1.1 2003/12/22 21:53:23 luis Exp $
 /* types */
 
 /* prototypes */
-RC4BYTE *getkeyfromstr(char *s);
+RC4 *getkeyfromstr(RC4 *s);
 
 #endif /* GKFS_H */
 /* Do not include anything AFTER the line above, as it would not be
