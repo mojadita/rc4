@@ -1,3 +1,13 @@
 *.o
 rc4
 rc4_test
+.depend
+librc4.a
+librc4.so
+librc4.so.1
+librc4.so.1.0
+pepe
+rc4.core
+rc4.do
+rc4_test2
+rc4_test2.core
