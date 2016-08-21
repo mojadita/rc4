@@ -106,7 +106,7 @@ int main()
 	fprintbuf(stdout, lon, (unsigned char *)texto, -1, -1, "Texto Cifrado");
 
 	rc4init(s, (RC4 *)clave, sizeof clave);
-	rc4cipher(s, (RC4 *)texto, lon);
+	rc4uncipher(s, (RC4 *)texto, lon);
 	fprintbuf(stdout, lon, (unsigned char *)texto, -1, -1, "Texto descifrado");
 
 } /* main */
